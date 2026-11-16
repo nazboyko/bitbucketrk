@@ -1,4 +1,12 @@
 services:
+  vite:
+    image: node:24-alpine
+    working_dir: /app
+    command: npm run dev
+    volumes:
+      - .:/app
+    ports:
+      - "127.0.0.1:5173:5173"
   db:
     image: mysql:8
     environment:
