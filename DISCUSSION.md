@@ -49,5 +49,13 @@ The only JavaScript in the project loaded axios and attached it to `window`. Not
 so the page needs no JavaScript bundle of its own. I removed the files, the Vite entry and the dependency. 
 That also dropped 23 packages from the install.
 
+### Outdated packages with known vulnerabilities
+
+The lock files were about seven months old. `npm audit` listed 9 advisories and `composer audit` listed 49, one of them 
+critical in the framework itself. None of it was malicious code, only old versions. I updated the rest inside the version 
+ranges the project already allowed, so no constraint was loosened. Laravel went from 13.3 to 13.42 and Livewire from 4.2 to 4.4.
+Both audits are clean now.
+The one constraint I did change is PHP: `composer.json` said 8.3, but the locked Symfony packages already needed 8.4, so it now says 8.4.
+
 
 
