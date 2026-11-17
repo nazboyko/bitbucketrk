@@ -43,6 +43,11 @@ The project was set up to test on SQLite in memory. I pointed the tests at a sec
 The migration bug above is the reason: SQLite accepts that JSON default, so the suite would have stayed green while the real 
 database could not be created.
 
+### Unused JavaScript
+
+The only JavaScript in the project loaded axios and attached it to `window`. Nothing used it. Livewire ships its own script,
+so the page needs no JavaScript bundle of its own. I removed the files, the Vite entry and the dependency. 
+That also dropped 23 packages from the install.
 
 
 
