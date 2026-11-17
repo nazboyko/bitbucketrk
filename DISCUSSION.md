@@ -57,5 +57,10 @@ ranges the project already allowed, so no constraint was loosened. Laravel went 
 Both audits are clean now.
 The one constraint I did change is PHP: `composer.json` said 8.3, but the locked Symfony packages already needed 8.4, so it now says 8.4.
 
+### Code checks
+
+I added Larastan at level 8 for static analysis, the Pint is in the project already.
+
+
 
 
