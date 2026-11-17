@@ -67,6 +67,18 @@ There is a GitHub Actions workflow with two jobs. The backend job starts MySQL a
 The frontend job runs `npm audit` and builds the assets. The audits are there so that an outdated dependency fails the build
 and does not sit unnoticed for months again.
 
+### Left out of the setup
+
+I did not use Laravel Sail. It would work, but it brings a large generated compose file, and the three services here fit
+in thirty lines that are easy to read. I also did not build a production image, because nothing in the assignment deploys anywhere.
+
+## Open question
+
+These are choices I made on my own where another answer would also be reasonable.
+
+**Should the app container run as root?** It does now. On macOS that causes no trouble. On Linux the files it creates
+in the project folder would belong to root. A fixed user id in the image fixes that for most people but not all,
+so I left it and wrote it down here.
 
 
 
