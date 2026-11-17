@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->throttleApi();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // API clients get JSON errors even when they send no Accept header.

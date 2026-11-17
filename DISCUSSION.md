@@ -143,6 +143,12 @@ I accepted that because an endpoint without a size limit only works while the ta
 
 Errors on `/api` routes are always JSON, even when the client sends no `Accept` header. Without that, a bad parameter answered with a redirect to the home page.
 
+### Rate limit
+
+I added the limiter here so every API client gets 60 requests a minute, counted per signed in user or per IP address.
+It uses the named `api` limiter and the middleware Laravel already has for it. The number is a guess.
+A real one would come from watching traffic.
+
 
 ___
 ## Open question

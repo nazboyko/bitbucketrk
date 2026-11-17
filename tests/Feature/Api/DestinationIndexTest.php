@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Enums\CostLevel;
 use App\Models\Destination;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class DestinationIndexTest extends TestCase
