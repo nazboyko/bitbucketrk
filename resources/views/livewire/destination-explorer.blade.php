@@ -1,49 +1,73 @@
+@use('App\Enums\DestinationSort')
+
 <div>
-    <h1 style="font-size: 24px; font-weight: bold;">Project</h1>
-    <br>
-    <br>
-    <div>
-        <p>Search</p>
-        <p>Searching for: <span id="search-term">{{ $search }}</span></p>
-        <input type="text" wire:model.live.debounce.300ms="search" style="border: 1px solid black; padding: 4px;">
-        <button wire:click="resetSearch">Reset Search</button>
+    <h1 class="text-2xl font-semibold">Destinations</h1>
+
+    <div class="mt-6 flex gap-3">
+        <input
+            type="text"
+            wire:model.live.debounce.300ms="search"
+            placeholder="Search"
+            class="w-full max-w-sm rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
+        >
+
+        <button
+            type="button"
+            wire:click="resetSearch"
+            class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-100"
+        >
+            Reset
+        </button>
     </div>
-    <br>
-    <br>
-    <div x-data="{ highlightedRow: null }">
-        <table>
-            <thead>
+
+    <div class="mt-6 rounded-lg border border-gray-200 bg-white">
+        <table class="w-full text-left text-sm">
+            <thead class="border-b border-gray-200 bg-gray-100 text-gray-600">
             <tr>
-                <th wire:click="sortBy('name')" style="cursor: pointer;">Name</th>
-                <th wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
-                <th wire:click="sortBy('region')" style="cursor: pointer;">Region</th>
-                <th wire:click="sortBy('costLevel')" style="cursor: pointer;">Cost Level</th>
-                <th>Activities</th>
-                <th wire:click="sortBy('averageDailyBudget')" style="cursor: pointer;">Avg. Daily Budget</th>
-                <th wire:click="sortBy('annualVisitors')" style="cursor: pointer;">Annual Visitors</th>
+                <x-sortable-heading :option="DestinationSort::Name" :current="$currentSort" :direction="$currentDirection">
+                    Name
+                </x-sortable-heading>
+                <x-sortable-heading :option="DestinationSort::Country" :current="$currentSort" :direction="$currentDirection">
+                    Country
+                </x-sortable-heading>
+                <x-sortable-heading :option="DestinationSort::Region" :current="$currentSort" :direction="$currentDirection">
+                    Region
+                </x-sortable-heading>
+                <x-sortable-heading :option="DestinationSort::CostLevel" :current="$currentSort" :direction="$currentDirection">
+                    Cost level
+                </x-sortable-heading>
+                <th class="px-4 py-3 font-medium">Activities</th>
+                <x-sortable-heading :option="DestinationSort::AverageDailyBudget" :current="$currentSort" :direction="$currentDirection" class="text-right">
+                    Daily budget
+                </x-sortable-heading>
+                <x-sortable-heading :option="DestinationSort::AnnualVisitors" :current="$currentSort" :direction="$currentDirection" class="text-right">
+                    Annual visitors
+                </x-sortable-heading>
             </tr>
             </thead>
-            <tbody>
-            @foreach($destinations as $destination)
-                <tr wire:key="{{ $destination->id }}" x-on:mouseenter="highlightedRow = {{ $loop->index }}" x-on:mouseleave="highlightedRow = null" x-bind:style="highlightedRow === {{ $loop->index }} ? 'background-color: #f0f0f0' : ''">
-                    <td>{{ $destination->name }}</td>
-                    <td>{{ $destination->country }}</td>
-                    <td>{{ $destination->region }}</td>
-                    <td>{{ $destination->cost_level->value }}</td>
-                    <td>{{ implode(', ', $destination->activities) }}</td>
-                    <td>{{ $destination->average_daily_budget }}</td>
-                    <td>{{ $destination->annual_visitors }}</td>
+            <tbody class="divide-y divide-gray-200">
+            @foreach ($destinations as $destination)
+                <tr wire:key="{{ $destination->id }}" class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium">{{ $destination->name }}</td>
+                    <td class="px-4 py-3">{{ $destination->country }}</td>
+                    <td class="px-4 py-3">{{ $destination->region }}</td>
+                    <td class="px-4 py-3">{{ $destination->cost_level->value }}</td>
+                    <td class="px-4 py-3">
+                        <ul class="flex flex-wrap gap-1">
+                            @foreach ($destination->activities as $activity)
+                                <li class="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-700">{{ $activity }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td class="px-4 py-3 text-right tabular-nums">${{ number_format($destination->average_daily_budget) }}</td>
+                    <td class="px-4 py-3 text-right tabular-nums">{{ number_format($destination->annual_visitors) }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-
-        {{ $destinations->links() }}
     </div>
 
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <div class="mt-4">
+        {{ $destinations->links() }}
+    </div>
 </div>

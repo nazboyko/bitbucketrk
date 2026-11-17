@@ -6,15 +6,17 @@ use App\Enums\DestinationSort;
 use App\Enums\SortDirection;
 use App\Models\Destination;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Title('Destinations')]
 class DestinationExplorer extends Component
 {
     use WithPagination;
 
-    private const int PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     #[Url]
     public string $search = '';
@@ -60,6 +62,8 @@ class DestinationExplorer extends Component
                 ->search($this->search)
                 ->sortedBy($this->sortOption(), $this->sortDirection())
                 ->paginate(self::PER_PAGE),
+            'currentSort' => $this->sortOption(),
+            'currentDirection' => $this->sortDirection(),
         ]);
     }
 

@@ -179,6 +179,16 @@ The page shows 10 rows at a time and the API defaults to 15.
 Search, sorting and page are kept in the query string, so a reload or a shared link shows the same list.
 Livewire replaces the current history entry and does not add a new one for every keystroke, so the back button still leaves the page.
 
+### Markup
+
+I don't know if it's a great practice but this is what I updated here:
+- The page is a full page Livewire component rendered inside the shared layout, registered with `Route::livewire`.
+- Row hover is one CSS class. No JavaScript state is involved.
+- Each row has a `wire:key` with the destination id, so Livewire can match rows when the order changes.
+- A sortable column header is a Blade component, because the same markup repeats six times.
+- Numbers are formatted in the view, with thousands separators and a dollar sign for the budget.
+
+
 ___
 ## Open question
 
