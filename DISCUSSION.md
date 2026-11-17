@@ -203,6 +203,13 @@ The API is read by other programs, not by people in a browser, so a session and 
 Sanctum is Laravel's own package for exactly this: a client sends a token in the `Authorization` header. 
 I published only its migration. The config file stays in the package because every default is fine here.
 
+### What is protected
+
+`GET /api/destinations` needs a valid token, and the token needs the `destinations:read` ability. 
+Without a token the answer is 401, with a token that lacks the ability it is 403. 
+The web page stays public. It reads the database on the server and never calls the API, so there is no token in the browser to protect or to leak.
+The rate limit from Section 2 is now counted per user. Requests without a valid token are turned away before the limiter runs, so they are not counted.
+
 
 ___
 ## Open question
