@@ -1,0 +1,97 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\DestinationController\:\:getHardcodedDestinations\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/DestinationController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\DestinationController\:\:index\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/DestinationController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\SeedController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/SeedController.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:getHardcodedDestinations\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:mount\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:render\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:resetSearch\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:search\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:sort\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Method App\\Livewire\\DestinationExplorer\:\:sort\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Property App\\Livewire\\DestinationExplorer\:\:\$destinations has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Property App\\Livewire\\DestinationExplorer\:\:\$filteredDestinations has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Property App\\Livewire\\DestinationExplorer\:\:\$searchTerm has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Property App\\Livewire\\DestinationExplorer\:\:\$sortDirection has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
+
+		-
+			message: '#^Property App\\Livewire\\DestinationExplorer\:\:\$sortField has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/DestinationExplorer.php
