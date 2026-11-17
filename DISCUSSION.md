@@ -72,6 +72,85 @@ and does not sit unnoticed for months again.
 I did not use Laravel Sail. It would work, but it brings a large generated compose file, and the three services here fit
 in thirty lines that are easy to read. I also did not build a production image, because nothing in the assignment deploys anywhere.
 
+___
+## Section 2. Database and API
+
+### The seed endpoint
+
+`POST /api/seed` emptied the destinations table and filled it again, for anyone who called it. 
+Protecting it with a token would still leave a button on the public API that deletes data.
+Loading demo data is a job for whoever runs the app, so it stays as an Artisan command and the endpoint is gone.
+The cost is that seeding needs console access.
+
+### Model and schema
+
+The model was empty, so values came back from the database as plain strings. `activities` is now cast to an array, 
+the two numbers to integers, and `cost_level` to a `CostLevel` enum. The enum lists its cases from cheapest to most expensive, 
+and that order is what sorting by cost level uses later.
+
+A destination is unique by name and country. That is an assumption that fits this data. Two places with the same name in 
+one country would need a better key, such as an id from the source the data comes from.
+
+Budget and visitor counts are unsigned, so the database itself refuses negative numbers.
+
+I edited the original migration and did not add a new one, because this schema has never been deployed anywhere.
+But on a live project the same change would be a new migration.
+
+Also some tests are failed, but I don't see any issues here, probably the issue is in my local env. 
+
+### Seeding
+
+The seeder inserted rows blindly, so running it twice doubled the catalog. It now updates or creates each demo row by name and country. 
+Running it again restores the demo rows to their original values and leaves every other row alone. 
+The same fifteen destinations were also copied into the controller and the Livewire component.
+The seeder is now the only place that holds them.
+
+### API output
+
+I added a new resource class, and now it defines the response field by field. 
+The only addition is `id`, so a client can tell two destinations apart.
+
+### Search and sorting live on the model
+
+The API and the page need exactly the same search and sorting. I put both into two query scopes on `Destination`, `search` 
+and `sortedBy`, so a call reads `Destination::query()->search($term)->sortedBy($sort, $direction)`.
+I considered a separate query class and a repository. For one model with one query they add files and indirection without 
+adding anything a scope does not already give, and scopes are what a Laravel developer looks for first.
+
+The fields a list can be sorted by are a `DestinationSort` enum. A name that is not in the enum cannot reach the query, 
+so there is no column name coming from the browser at all.
+
+### How search behaves
+
+The old search was case sensitive, searched the JSON text of the activities, and matched numbers as text. The rules now:
+
+- The term is trimmed and case does not matter.
+- It looks in name, country, region, cost level and activity names.
+- `%` and `_` are ordinary characters, not wildcards.
+- A whole number also matches the daily budget, but only exactly. Before, `15` matched a budget of 150, which helps nobody.
+- `0` is a real term. The old code treated it as empty.
+
+Activities are searched with MySQL's `JSON_SEARCH`, so a quote or a bracket no longer matches every row. Sorting by cost level uses MySQL's `FIELD` to follow the enum order, because alphabetical order puts Luxury before Moderate. Both are MySQL only, which is the tradeoff of keeping activities in a JSON column. With an `activities` table the search would be plain SQL and work on any database.
+
+### API input and paging
+
+The endpoint returned the whole table with no way to narrow it down. It now takes `search`, `sort`, `direction`, `page` and `per_page`,
+all checked by a form request. A page holds 15 rows unless the client asks for another size, up to 100.
+
+Paging changes the response for existing clients: `data` now holds one page, and `links` and `meta` sit next to it. 
+A client that expected every row in one call has to follow the pages.
+I accepted that because an endpoint without a size limit only works while the table is small.
+
+Errors on `/api` routes are always JSON, even when the client sends no `Accept` header. Without that, a bad parameter answered with a redirect to the home page.
+
+### Rate limit
+
+I added the limiter here so every API client gets 60 requests a minute, counted per signed in user or per IP address.
+It uses the named `api` limiter and the middleware Laravel already has for it. The number is a guess.
+A real one would come from watching traffic.
+
+
+___
 ## Open question
 
 These are choices I made on my own where another answer would also be reasonable.

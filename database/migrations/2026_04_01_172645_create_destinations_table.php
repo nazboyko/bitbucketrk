@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('region');
             $table->string('cost_level');
             $table->json('activities');
-            $table->integer('average_daily_budget');
-            $table->bigInteger('annual_visitors');
+            $table->unsignedInteger('average_daily_budget');
+            $table->unsignedBigInteger('annual_visitors');
             $table->timestamps();
+
+            $table->unique(['name', 'country']);
         });
     }
 

@@ -1,24 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method App\\Http\\Controllers\\Api\\DestinationController\:\:getHardcodedDestinations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/Api/DestinationController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\Api\\DestinationController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/Api/DestinationController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\Api\\SeedController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/Api/SeedController.php
-
-		-
 			message: '#^Method App\\Livewire\\DestinationExplorer\:\:getHardcodedDestinations\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
