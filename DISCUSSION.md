@@ -194,6 +194,15 @@ Don't know if it's needed, but I added a message with "Clear search" link here a
 On a narrow screen the table scrolls sideways inside its own box and the page itself does not. That keeps every column available on a phone. 
 A card layout would read better there, but it means a second version of the same markup, so I left it out.
 
+----
+## Section 4. Authentication
+
+### Why Sanctum tokens
+
+The API is read by other programs, not by people in a browser, so a session and a login form would not fit. 
+Sanctum is Laravel's own package for exactly this: a client sends a token in the `Authorization` header. 
+I published only its migration. The config file stays in the package because every default is fine here.
+
 
 ___
 ## Open question
