@@ -132,6 +132,17 @@ The old search was case sensitive, searched the JSON text of the activities, and
 
 Activities are searched with MySQL's `JSON_SEARCH`, so a quote or a bracket no longer matches every row. Sorting by cost level uses MySQL's `FIELD` to follow the enum order, because alphabetical order puts Luxury before Moderate. Both are MySQL only, which is the tradeoff of keeping activities in a JSON column. With an `activities` table the search would be plain SQL and work on any database.
 
+### API input and paging
+
+The endpoint returned the whole table with no way to narrow it down. It now takes `search`, `sort`, `direction`, `page` and `per_page`,
+all checked by a form request. A page holds 15 rows unless the client asks for another size, up to 100.
+
+Paging changes the response for existing clients: `data` now holds one page, and `links` and `meta` sit next to it. 
+A client that expected every row in one call has to follow the pages.
+I accepted that because an endpoint without a size limit only works while the table is small.
+
+Errors on `/api` routes are always JSON, even when the client sends no `Accept` header. Without that, a bad parameter answered with a redirect to the home page.
+
 
 ___
 ## Open question
