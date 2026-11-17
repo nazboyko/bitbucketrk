@@ -23,4 +23,14 @@ I regenerated only the lock file with `npm install --package-lock-only`. It adde
 I removed the default, so every row has to state its activities, which the seeder already does.
 This is Section 2 work, but the database could not be created without it, so it is fixed here.
 
+### Everything looks fine in Docker
+
+I moved all of it into containers: `app` for PHP, `vite` for Node and `db` for MySQL.
+`composer.json` allows PHP 8.3, but the locked Symfony 8 packages need PHP 8.4 or newer, so the image uses PHP 8.4.
+The constraint in `composer.json` is corrected together with the dependency updates.
+
+### Lock file out of sync again.
+
+I ran `docker compose run --rm vite npm install --package-lock-only --ignore-scripts` just to update the `package-lock.json`
+
 
