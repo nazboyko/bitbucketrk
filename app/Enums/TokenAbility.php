@@ -6,4 +6,3 @@ enum TokenAbility: string
 {
     case ReadDestinations = 'destinations:read';
 }
-
