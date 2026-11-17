@@ -72,6 +72,18 @@ and does not sit unnoticed for months again.
 I did not use Laravel Sail. It would work, but it brings a large generated compose file, and the three services here fit
 in thirty lines that are easy to read. I also did not build a production image, because nothing in the assignment deploys anywhere.
 
+___
+## Section 2. Database and API
+
+### The seed endpoint
+
+`POST /api/seed` emptied the destinations table and filled it again, for anyone who called it. 
+Protecting it with a token would still leave a button on the public API that deletes data.
+Loading demo data is a job for whoever runs the app, so it stays as an Artisan command and the endpoint is gone.
+The cost is that seeding needs console access.
+
+
+___
 ## Open question
 
 These are choices I made on my own where another answer would also be reasonable.
