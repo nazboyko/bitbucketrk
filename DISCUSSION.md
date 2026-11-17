@@ -149,6 +149,32 @@ I added the limiter here so every API client gets 60 requests a minute, counted 
 It uses the named `api` limiter and the middleware Laravel already has for it. The number is a guess.
 A real one would come from watching traffic.
 
+---
+## Section 3. User interface
+
+### What was wrong with the component
+
+I went through `DestinationExplorer` and its view and found these problems:
+
+- Search was one keystroke behind. It ran on `keydown`, before the input value had changed.
+- Search was case sensitive and treated `0` as empty.
+- Searching or resetting threw away the sorting, while the component still claimed to be sorted.
+- `sort()` took any field name from the browser. An unknown name crashed the page.
+- The comparison never returned zero for equal values, and cost level was sorted alphabetically.
+- The whole catalog sat in two public arrays, so it travelled to the browser and back on every request and could be changed there.
+
+### State
+
+The component now keeps four small values: the search text, the sort field, the direction and the page.
+The rows are read from the database on each render through the same two scopes the API uses.
+
+The page does not call the API. Both run on the same server, so an HTTP request from the app to itself would only 
+add latency and a second place to handle errors. They share the model scopes instead.
+
+The search lag is fixed by binding the input with a live model and a 300 ms debounce. 
+I could not write an automated test for the timing itself, because Livewire tests do not run a browser.
+
+The page shows 10 rows at a time and the API defaults to 15.
 
 ___
 ## Open question
