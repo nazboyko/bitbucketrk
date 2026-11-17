@@ -188,6 +188,12 @@ I don't know if it's a great practice but this is what I updated here:
 - A sortable column header is a Blade component, because the same markup repeats six times.
 - Numbers are formatted in the view, with thousands separators and a dollar sign for the budget.
 
+### Feedback while using the page
+
+Don't know if it's needed, but I added a message with "Clear search" link here and a short "Updating" hint while a request is running.
+On a narrow screen the table scrolls sideways inside its own box and the page itself does not. That keeps every column available on a phone. 
+A card layout would read better there, but it means a second version of the same markup, so I left it out.
+
 
 ___
 ## Open question
