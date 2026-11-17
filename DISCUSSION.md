@@ -98,6 +98,12 @@ But on a live project the same change would be a new migration.
 
 Also some tests are failed, but I don't see any issues here, probably the issue is in my local env. 
 
+### Seeding
+
+The seeder inserted rows blindly, so running it twice doubled the catalog. It now updates or creates each demo row by name and country. 
+Running it again restores the demo rows to their original values and leaves every other row alone. 
+The same fifteen destinations were also copied into the controller and the Livewire component.
+The seeder is now the only place that holds them.
 
 ___
 ## Open question
