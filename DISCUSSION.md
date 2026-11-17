@@ -210,6 +210,14 @@ Without a token the answer is 401, with a token that lacks the ability it is 403
 The web page stays public. It reads the database on the server and never calls the API, so there is no token in the browser to protect or to leak.
 The rate limit from Section 2 is now counted per user. Requests without a valid token are turned away before the limiter runs, so they are not counted.
 
+### How a client gets a token
+
+`php artisan api:token someone@example.com` creates the user if needed and prints a token once. Only its hash is stored. 
+I chose a command over a login endpoint because a login endpoint needs passwords, and passwords need registration, reset and lockout to be done properly. 
+That is a second feature. For an API with a handful of known clients, the person who runs the app can hand out tokens.
+
+Tokens do not expire and there is no command to revoke one yet. Deleting the row from `personal_access_tokens` revokes it.
+
 
 ___
 ## Open question
