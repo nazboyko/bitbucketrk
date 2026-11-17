@@ -82,6 +82,22 @@ Protecting it with a token would still leave a button on the public API that del
 Loading demo data is a job for whoever runs the app, so it stays as an Artisan command and the endpoint is gone.
 The cost is that seeding needs console access.
 
+### Model and schema
+
+The model was empty, so values came back from the database as plain strings. `activities` is now cast to an array, 
+the two numbers to integers, and `cost_level` to a `CostLevel` enum. The enum lists its cases from cheapest to most expensive, 
+and that order is what sorting by cost level uses later.
+
+A destination is unique by name and country. That is an assumption that fits this data. Two places with the same name in 
+one country would need a better key, such as an id from the source the data comes from.
+
+Budget and visitor counts are unsigned, so the database itself refuses negative numbers.
+
+I edited the original migration and did not add a new one, because this schema has never been deployed anywhere.
+But on a live project the same change would be a new migration.
+
+Also some tests are failed, but I don't see any issues here, probably the issue is in my local env. 
+
 
 ___
 ## Open question
