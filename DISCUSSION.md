@@ -194,6 +194,30 @@ Don't know if it's needed, but I added a message with "Clear search" link here a
 On a narrow screen the table scrolls sideways inside its own box and the page itself does not. That keeps every column available on a phone. 
 A card layout would read better there, but it means a second version of the same markup, so I left it out.
 
+----
+## Section 4. Authentication
+
+### Why Sanctum tokens
+
+The API is read by other programs, not by people in a browser, so a session and a login form would not fit. 
+Sanctum is Laravel's own package for exactly this: a client sends a token in the `Authorization` header. 
+I published only its migration. The config file stays in the package because every default is fine here.
+
+### What is protected
+
+`GET /api/destinations` needs a valid token, and the token needs the `destinations:read` ability. 
+Without a token the answer is 401, with a token that lacks the ability it is 403. 
+The web page stays public. It reads the database on the server and never calls the API, so there is no token in the browser to protect or to leak.
+The rate limit from Section 2 is now counted per user. Requests without a valid token are turned away before the limiter runs, so they are not counted.
+
+### How a client gets a token
+
+`php artisan api:token someone@example.com` creates the user if needed and prints a token once. Only its hash is stored. 
+I chose a command over a login endpoint because a login endpoint needs passwords, and passwords need registration, reset and lockout to be done properly. 
+That is a second feature. For an API with a handful of known clients, the person who runs the app can hand out tokens.
+
+Tokens do not expire and there is no command to revoke one yet. Deleting the row from `personal_access_tokens` revokes it.
+
 
 ___
 ## Open question

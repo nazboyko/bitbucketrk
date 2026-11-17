@@ -3,14 +3,24 @@
 namespace Tests\Feature\Api;
 
 use App\Enums\CostLevel;
+use App\Enums\TokenAbility;
 use App\Models\Destination;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class DestinationIndexTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Sanctum::actingAs(User::factory()->create(), [TokenAbility::ReadDestinations->value]);
+    }
 
     public function test_it_returns_destinations_stored_in_the_database(): void
     {
