@@ -100,13 +100,13 @@ class DestinationSearchTest extends TestCase
     private function destination(array $attributes = []): Destination
     {
         return Destination::factory()->create($attributes + [
-                'name' => 'Elsewhere '.fake()->unique()->lexify('??????'),
-                'country' => 'Nowhere',
-                'region' => 'Unknown',
-                'cost_level' => CostLevel::Budget,
-                'activities' => ['Resting'],
-                'average_daily_budget' => 99,
-            ]);
+            'name' => 'Elsewhere '.fake()->unique()->lexify('??????'),
+            'country' => 'Nowhere',
+            'region' => 'Unknown',
+            'cost_level' => CostLevel::Budget,
+            'activities' => ['Resting'],
+            'average_daily_budget' => 99,
+        ]);
     }
 
     /**
