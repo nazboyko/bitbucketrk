@@ -110,6 +110,28 @@ The seeder is now the only place that holds them.
 I added a new resource class, and now it defines the response field by field. 
 The only addition is `id`, so a client can tell two destinations apart.
 
+### Search and sorting live on the model
+
+The API and the page need exactly the same search and sorting. I put both into two query scopes on `Destination`, `search` 
+and `sortedBy`, so a call reads `Destination::query()->search($term)->sortedBy($sort, $direction)`.
+I considered a separate query class and a repository. For one model with one query they add files and indirection without 
+adding anything a scope does not already give, and scopes are what a Laravel developer looks for first.
+
+The fields a list can be sorted by are a `DestinationSort` enum. A name that is not in the enum cannot reach the query, 
+so there is no column name coming from the browser at all.
+
+### How search behaves
+
+The old search was case sensitive, searched the JSON text of the activities, and matched numbers as text. The rules now:
+
+- The term is trimmed and case does not matter.
+- It looks in name, country, region, cost level and activity names.
+- `%` and `_` are ordinary characters, not wildcards.
+- A whole number also matches the daily budget, but only exactly. Before, `15` matched a budget of 150, which helps nobody.
+- `0` is a real term. The old code treated it as empty.
+
+Activities are searched with MySQL's `JSON_SEARCH`, so a quote or a bracket no longer matches every row. Sorting by cost level uses MySQL's `FIELD` to follow the enum order, because alphabetical order puts Luxury before Moderate. Both are MySQL only, which is the tradeoff of keeping activities in a JSON column. With an `activities` table the search would be plain SQL and work on any database.
+
 
 ___
 ## Open question
