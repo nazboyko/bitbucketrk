@@ -105,6 +105,12 @@ Running it again restores the demo rows to their original values and leaves ever
 The same fifteen destinations were also copied into the controller and the Livewire component.
 The seeder is now the only place that holds them.
 
+### API output
+
+I added a new resource class, and now it defines the response field by field. 
+The only addition is `id`, so a client can tell two destinations apart.
+
+
 ___
 ## Open question
 
