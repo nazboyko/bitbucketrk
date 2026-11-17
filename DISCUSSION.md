@@ -176,6 +176,9 @@ I could not write an automated test for the timing itself, because Livewire test
 
 The page shows 10 rows at a time and the API defaults to 15.
 
+Search, sorting and page are kept in the query string, so a reload or a shared link shows the same list.
+Livewire replaces the current history entry and does not add a new one for every keystroke, so the back button still leaves the page.
+
 ___
 ## Open question
 

@@ -5,6 +5,7 @@ namespace Tests\Feature\Livewire;
 use App\Livewire\DestinationExplorer;
 use App\Models\Destination;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Component;
 use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -137,12 +138,34 @@ class DestinationExplorerTest extends TestCase
             ->assertSet('paginators.page', 1);
     }
 
-    /**
-     * @return Testable<DestinationExplorer>
-     */
-    private function explorer(): Testable
+    public function test_search_sorting_and_page_are_restored_from_the_url(): void
     {
-        return Livewire::test(DestinationExplorer::class);
+        Destination::factory()->count(12)->create(['region' => 'Europe']);
+        Destination::factory()->create(['name' => 'Bali', 'region' => 'Asia']);
+
+        $this->explorer(['search' => 'europe', 'sort' => 'country', 'direction' => 'desc', 'page' => 2])
+            ->assertSet('search', 'europe')
+            ->assertSet('sort', 'country')
+            ->assertSet('direction', 'desc')
+            ->assertSet('paginators.page', 2)
+            ->assertDontSee('Bali');
+    }
+
+    public function test_invalid_url_values_fall_back_to_the_default_order(): void
+    {
+        $this->createNamed('Kyoto', 'Bali');
+
+        $this->explorer(['sort' => 'password', 'direction' => 'sideways'])
+            ->assertSeeInOrder(['Bali', 'Kyoto']);
+    }
+
+    /**
+     * @param  array<string, mixed>  $query
+     * @return Testable<Component>
+     */
+    private function explorer(array $query = []): Testable
+    {
+        return Livewire::withQueryParams($query)->test(DestinationExplorer::class);
     }
 
     private function createNamed(string ...$names): void
