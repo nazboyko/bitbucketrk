@@ -33,4 +33,16 @@ The constraint in `composer.json` is corrected together with the dependency upda
 
 I ran `docker compose run --rm vite npm install --package-lock-only --ignore-scripts` just to update the `package-lock.json`
 
+### MySQL version
+
+I tried again the v8 version, and it's not working on my local env. so i returned back to the v8.4
+
+### Tests run on MySQL
+
+The project was set up to test on SQLite in memory. I pointed the tests at a second MySQL database instead.
+The migration bug above is the reason: SQLite accepts that JSON default, so the suite would have stayed green while the real 
+database could not be created.
+
+
+
 
