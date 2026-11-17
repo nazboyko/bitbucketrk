@@ -61,6 +61,12 @@ The one constraint I did change is PHP: `composer.json` said 8.3, but the locked
 
 I added Larastan at level 8 for static analysis, the Pint is in the project already.
 
+### CI
+
+There is a GitHub Actions workflow with two jobs. The backend job starts MySQL and runs `composer audit` and `composer check`. 
+The frontend job runs `npm audit` and builds the assets. The audits are there so that an outdated dependency fails the build
+and does not sit unnoticed for months again.
+
 
 
 
